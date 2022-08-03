@@ -9,6 +9,15 @@ public class PlayerController : Singleton<PlayerController>
     {
         InputSystem.Instance.Touch += OnTouch;
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        var collectable = other.GetComponent<ICollectable>();
+        if (collectable != null)
+        {
+            collectable.Expand();
+            //para azaltma eklenecek
+        }
+    }
 
     public void makeAnimationIdle()
     {
