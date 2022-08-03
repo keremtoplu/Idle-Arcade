@@ -6,32 +6,38 @@ public class FlowerSheld : MonoBehaviour, ICollectable
 {
     [SerializeField]
     private int cost;
-    float timer;
+    // float timer;
     private void Start()
     {
-        if (PlayerPrefs.GetInt("FlowerProduct") == 0)
+        if (PlayerPrefs.GetInt("FlowerSheld") == 0)
             transform.GetChild(1).gameObject.SetActive(false);
-
     }
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer == 0)
-        {
-            transform.GetChild(1).gameObject.SetActive(true);
-            SaveManager.Instance.LevelUp("FlowerSheld");
-        }
+        // timer -= Time.deltaTime;
+        // if (timer == 0)
+        // {
+        //     transform.GetChild(1).gameObject.SetActive(true);
+        //     SaveManager.Instance.LevelUp("FlowerSheld");
+        //     Debug.Log(timer);
+        // }
     }
     public void Expand()
     {
-        if (PlayerPrefs.GetInt("FlowerSheld") == 0)
+        if (cost < CoinManager.Instance.CurrentMoney)
         {
-            timer = cost * .3f;
-            //para animasyonu eklenecek
-        }
-        else
-        {
-            //çiçekler rafa koyulacak
+            if (PlayerPrefs.GetInt("FlowerSheld") == 0)
+            {
+                transform.GetChild(1).gameObject.SetActive(true);
+                SaveManager.Instance.LevelUp("FlowerSheld");
+                CoinManager.Instance.SubMoney(cost);
+            }
+            else
+            {
+                FlowerManager.Instance.AddShelfFlower();
+                SaveManager.Instance.LevelUp("FlowerSheld");
+                CoinManager.Instance.SubMoney(cost);
+            }
         }
 
     }

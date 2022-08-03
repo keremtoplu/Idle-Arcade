@@ -15,7 +15,6 @@ public class PlayerController : Singleton<PlayerController>
         if (collectable != null)
         {
             collectable.Expand();
-            //para azaltma eklenecek
         }
     }
 

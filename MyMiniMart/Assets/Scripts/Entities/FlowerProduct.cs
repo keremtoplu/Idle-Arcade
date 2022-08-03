@@ -7,7 +7,7 @@ public class FlowerProduct : MonoBehaviour, ICollectable
 
     [SerializeField]
     private int cost;
-    float timer;
+
     private void Start()
     {
         if (PlayerPrefs.GetInt("FlowerProduct") == 0)
@@ -15,21 +15,22 @@ public class FlowerProduct : MonoBehaviour, ICollectable
     }
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer == 0)
-        {
-            transform.GetChild(1).gameObject.SetActive(true);
-            SaveManager.Instance.LevelUp("FlowerProduct");
-        }
+
     }
     public void Expand()
     {
         if (PlayerPrefs.GetInt("FlowerProduct") == 0)
         {
-            timer = cost * 0.3f;
+            transform.GetChild(1).gameObject.SetActive(true);
+            SaveManager.Instance.LevelUp("FlowerProduct");
         }
         else
         {
+            for (int i = 0; i <= FlowerManager.Instance.CurrentProductFlower; i++)
+            {
+                FlowerManager.Instance.RemoveProductFlower();
+                FlowerManager.Instance.AddStackFlower();
+            }
             //üretilen çiçekler verilecek
         }
     }

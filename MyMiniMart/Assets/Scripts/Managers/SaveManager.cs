@@ -5,31 +5,24 @@ using UnityEngine;
 public class SaveManager : Singleton<SaveManager>
 {
 
-    void Start()
+    private void Start()
     {
-        PlayerPrefs.SetInt("FlowerSheld", 0);
-        PlayerPrefs.SetInt("FlowerProduct", 0);
-        PlayerPrefs.SetInt("Checkout", 0);
-
+        PlayerPrefs.SetInt("CurrentMoney", CoinManager.Instance.StartMoney);
     }
-
     public void LevelUp(string name)
     {
         switch (name)
         {
             case "FlowerSheld":
-                var levelFlowerSheld = PlayerPrefs.GetInt("FlowerSheld");
-                PlayerPrefs.SetInt("FlowerSheld", levelFlowerSheld++);
+                PlayerPrefs.SetInt("FlowerSheld", PlayerPrefs.GetInt("FlowerSheld") + 1);
                 break;
 
             case "FlowerProduct":
-                var levelFlowerProduct = PlayerPrefs.GetInt("FlowerProduct");
-                PlayerPrefs.SetInt("FlowerProduct", levelFlowerProduct++);
+                PlayerPrefs.SetInt("FlowerProduct", PlayerPrefs.GetInt("FlowerProduct") + 1);
                 break;
 
             case "Checkout":
-                var levelCheckout = PlayerPrefs.GetInt("Checkout");
-                PlayerPrefs.SetInt("Checkout", levelCheckout++);
+                PlayerPrefs.SetInt("Checkout", PlayerPrefs.GetInt("Checkout"));
                 break;
 
         }

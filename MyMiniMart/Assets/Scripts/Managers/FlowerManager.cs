@@ -5,7 +5,12 @@ using UnityEngine;
 public class FlowerManager : Singleton<FlowerManager>
 {
     [SerializeField]
-    private GameObject flowerPrefab;
+    private GameObject shelfFlowerPrefab;
+    [SerializeField]
+    private GameObject productFlowerPrefab;
+
+    [SerializeField]
+    private GameObject handFlowerPrefab;
 
     [SerializeField]
     private int numberOfProductions;
@@ -18,92 +23,104 @@ public class FlowerManager : Singleton<FlowerManager>
 
     [SerializeField]
     private Vector3 productDesiredPosition;
+
     [SerializeField]
     private Vector3 stackDesiredPosition;
+
     [SerializeField]
     private Vector3 shelfDesiredPosition;
+
+    [SerializeField]
+    private GameObject player;
 
     private GameObject[] stackFlowers;
     private GameObject[] shelfFlowers;
     private GameObject[] productFlowers;
-    private float timer = 2f;
-    private int flowNum;
+
+    private int currentShelfFlower;
+    private int currentStackFlower;
+    private int currentProductFlower;
+
+    public int CurrentProductFlower => currentProductFlower;
+    public int CurrentStackFlower => currentStackFlower;
 
     void Start()
     {
+        stackFlowers = new GameObject[stackCapacity];
+        shelfFlowers = new GameObject[shelfCapacity];
+        productFlowers = new GameObject[numberOfProductions];
+
+        currentProductFlower = 0;
+        currentShelfFlower = 0;
+        currentProductFlower = 0;
+
         for (int i = 0; i < numberOfProductions; i++)
         {
-            var flower = Instantiate(flowerPrefab, productDesiredPosition, Quaternion.identity);
+            var flower = Instantiate(productFlowerPrefab, productDesiredPosition + new Vector3(i, 0, 0), Quaternion.identity);
             productFlowers[i] = flower;
             productFlowers[i].SetActive(false);
         }
         for (int i = 0; i < shelfCapacity; i++)
         {
-            var flower = Instantiate(flowerPrefab, shelfDesiredPosition, Quaternion.identity);
+            var flower = Instantiate(shelfFlowerPrefab, shelfDesiredPosition + new Vector3(i, 0, 0), Quaternion.identity);
             shelfFlowers[i] = flower;
             shelfFlowers[i].SetActive(false);
         }
         for (int i = 0; i < stackCapacity; i++)
         {
-            var flower = Instantiate(flowerPrefab, stackDesiredPosition, Quaternion.identity);
+            var flower = Instantiate(handFlowerPrefab, stackDesiredPosition + new Vector3(0, i, 0), Quaternion.identity);
             stackFlowers[i] = flower;
             stackFlowers[i].SetActive(false);
-        }
-        flowNum = numberOfProductions;
-    }
-
-    private void Update()
-    {
-        timer -= Time.deltaTime;
-        if (timer == 0)
-        {
-            productFlowers[flowNum].SetActive(true);
-            flowNum--;
-            if (flowNum < 0)
-                flowNum = numberOfProductions;
+            stackFlowers[i].transform.parent = player.transform;
         }
     }
-    public void AddStackFlower(int desiredFlowers)
+    public void AddStackFlower()
     {
-        for (int i = 0; i < desiredFlowers; i++)
+        if (currentStackFlower < stackCapacity)
         {
-            stackFlowers[i].SetActive(true);
+            stackFlowers[currentStackFlower].SetActive(true);
+            currentStackFlower++;
         }
     }
-    // public void AddProductFlower(int desiredFlowers)
-    // {
-    //     for (int i = 0; i < desiredFlowers; i++)
-    //     {
-    //         productFlowers[i].SetActive(true);
-    //     }
-    // }
-    public void AddShelfFlower(int desiredFlowers)
+    public void AddProductFlower()
     {
-        for (int i = 0; i < desiredFlowers; i++)
+        if (currentProductFlower < numberOfProductions)
         {
-            shelfFlowers[i].SetActive(true);
+            productFlowers[currentProductFlower].SetActive(true);
+            currentProductFlower++;
+        }
+    }
+    public void AddShelfFlower()
+    {
+        if (currentShelfFlower < shelfCapacity)
+        {
+            shelfFlowers[currentShelfFlower].SetActive(true);
+            currentShelfFlower++;
         }
     }
 
-    public void RemoveStackFlower(int desiredFlowers)
+    public void RemoveStackFlower()
     {
-        for (int i = desiredFlowers; i <= 0; i--)
+        if (currentStackFlower >= 0)
         {
-            stackFlowers[i].SetActive(false);
+            stackFlowers[currentStackFlower].SetActive(false);
+            currentStackFlower--;
         }
     }
-    public void RemoveProductFlower(int desiredFlowers)
+    public void RemoveProductFlower()
     {
-        for (int i = desiredFlowers; i <= 0; i--)
+        if (currentProductFlower >= 0)
         {
-            productFlowers[i].SetActive(false);
+            productFlowers[currentProductFlower].SetActive(false);
+            currentProductFlower--;
         }
     }
-    public void RemoveShelfFlower(int desiredFlowers)
+    public void RemoveShelfFlower()
     {
-        for (int i = desiredFlowers; i <= 0; i--)
+        if (currentShelfFlower >= 0)
         {
-            shelfFlowers[i].SetActive(false);
+            shelfFlowers[currentShelfFlower].SetActive(false);
+            currentShelfFlower--;
         }
     }
 
