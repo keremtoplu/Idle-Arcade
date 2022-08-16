@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
 {
+    [SerializeField]
+    private StackController stack;
+
+
+    public StackController Stack => stack;
+
     private void Start()
     {
         InputSystem.Instance.Touch += OnTouch;

@@ -23,12 +23,14 @@ public class FlowerProduct : MonoBehaviour, ICollectable
             transform.GetChild(1).gameObject.SetActive(true);
             SaveManager.Instance.LevelUp("FlowerProduct");
             FlowerManager.Instance.CurrentProductCapacity++;
+            FlowerManager.Instance.CurrentProductFlower++;
+            FlowerManager.Instance.IsCollect = false;
             FlowerManager.Instance.ProduceFlower();
         }
         else
         {
 
-            //paraya göre alma eklenecek
+
         }
     }
 

@@ -6,7 +6,11 @@ public class FlowerSheld : MonoBehaviour, ICollectable
 {
     [SerializeField]
     private int cost;
-    // float timer;
+
+    [SerializeField]
+    private StackController shelfStack;
+
+    public StackController ShelfStack => shelfStack;
     private void Start()
     {
         if (PlayerPrefs.GetInt("FlowerSheld") == 0)
@@ -27,7 +31,11 @@ public class FlowerSheld : MonoBehaviour, ICollectable
         }
         else
         {
-
+            for (int i = 0; i < shelfStack.StackCapacity; i++)
+            {
+                if (PlayerController.Instance.Stack.ItemCount > 0)
+                    shelfStack.AddStack(PlayerController.Instance.Stack.RemoveStack());
+            }
         }
 
 
